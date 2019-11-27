@@ -1,18 +1,24 @@
-{source-paths
+;; shadow-cljs configuration
+{:source-paths
  ["src"]
 
  :dependencies
- [[reagent "0.8.1"]
+ [
+  [reagent "0.8.1"]
   [org.clojure/core.async "0.4.500"]
-  [com.taoensso/timpre "4.10.0"]
+  [com.taoensso/timbre "4.10.0"]
+  [rum "0.11.4"]
   ]
 
- :dev-http (8080 "target/"}
+ :dev-http {8080 "target/"}
  :builds {:app {:output-dir "target/"
-                :asset-path "*"
+                :asset-path "."
                 :target :browser
                 :modules {:main {:init-fn main/main!}}
                 :devtools {:after-load main/reload!
                            :http-root "target"
                            :http-port 8080}}}}
 
+{}
+
+}
