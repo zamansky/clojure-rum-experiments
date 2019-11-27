@@ -4,6 +4,7 @@
 
  :dependencies
  [
+  [prismatic/dommy "1.1.0"]
   [org.clojure/core.async "0.4.500"]
   [com.taoensso/timbre "4.10.0"]
   [rum "0.11.4"]

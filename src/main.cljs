@@ -1,6 +1,7 @@
 (ns main
   (:require [cljs.core.async :refer (chan put! <! go go-loop timeout)]
             [rum.core :as rum]
+            [dommy.core :refer-macros [sel sel1]]
             ))
 
 (rum/defcs stateful < (rum/local {:username "un" :password "pw"} :cred)
@@ -17,10 +18,10 @@
    ]
   )
 (defn reload! []
-(rum/mount (main-component) (.getElementById js/document "app"))
-(print "Hello reload!"))
+  (rum/mount (main-component) (sel1 :#app))
+  (print "Hello reload!"))
 
 (defn main! []
-(rum/mount (main-component) (.getElementById js/document "app"))
-(print "Hello main!")
-)
+  (rum/mount (main-component) (sel1 :#app))
+  (print "Hello main!")
+  )
