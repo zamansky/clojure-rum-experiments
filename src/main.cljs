@@ -51,10 +51,11 @@
 
 
 (rum/defc textarea [text]
-  [:textarea {:on-change #((swap! text assoc :raw (-> % .-target .-value))
-                           (swap! text assoc :md (-> % .-target .-value md/md->html))
-                           )
-              }
+  [:textarea.w-full {:rows 20
+                     :on-change #((swap! text assoc :raw (-> % .-target .-value))
+                                  (swap! text assoc :md (-> % .-target .-value md/md->html))
+                                  )
+                     }
    
    (:raw @text)
    ]
@@ -65,25 +66,29 @@
   )
 
 (rum/defcs markdown-form < (rum/local {:raw "" :md ""} :text)
-[local-state]
-(let [text (:text local-state)]
-[:div.flex.m-1.p-1
-[:div.appearance-none.m-1.p-1 (textarea text)]
-[:div "hello"]
-[:div.appearance-none.m-1.p-1 (mdviewer text)]
-]
-)
-)
+  [local-state]
+  (let [text (:text local-state)]
+    [:div.container.flex.m-1.p-1.w-full
+     [:div.appearance-none.m-1.p-1.w-full (textarea text)]
+
+     [:div.appearance-none.m-1.p-1.border-red.border-solid.border-2.w-full (mdviewer text)]
+     ]
+    )
+  )
 
 (rum/defc main-component []
-[:div
-[:div.p-5 "Hello World"]
-(login-form)
-[:div "before"]
-(markdown-form)
-[:div "after"]
-]
-)
+  [:div
+   [:div.p-5 "Hello World"]
+   (login-form)
+   [:div "before"]
+
+
+   (markdown-form)
+
+
+   [:div "after"]
+   ]
+  )
 (defn reload! []
 (rum/mount (main-component) (sel1 :#app))
 (print "Hello reload!"))
