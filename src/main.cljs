@@ -76,13 +76,18 @@
     )
   )
 
+(rum/defc selector []
+  (into [:select {:name "thename" }"hello"]
+        (vec (for [a (map str (range 5))]
+               [:option {:value a} a]
+               ))))
+
 (rum/defc main-component []
   [:div
+   [:div "HELLO "(selector)]
    [:div.p-5 "Hello World"]
    (login-form)
    [:div "before"]
-
-
    (markdown-form)
 
 
