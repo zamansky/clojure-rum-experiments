@@ -1,8 +1,16 @@
 (ns main
-  (:require [cljs.core.async :refer (chan put! <! go go-loop timeout)]
-            [rum.core :as rum]
-            [dommy.core :refer-macros [sel sel1]]
-            ))
+  (:require
+   
+   [reagent.core  :as reagent]
+   [cljs.core.async :refer (chan put! <! go go-loop timeout)]
+   [rum.core :as rum]
+   [dommy.core :refer-macros [sel sel1]]
+   [markdown.core :as md]
+   )
+  
+  )
+
+
 
 
 
@@ -39,16 +47,41 @@
      (input "password" "password" creds :password)
      [:button.bg-blue-500.hover:bg-blue-700.text-white.font-bold.px-3..mx-4.my-1.rounded {:on-click #(login creds) :id "login"}"Login"]
      ]
-    
     ))
 
 
+(rum/defc textarea [text]
+  [:textarea {:on-change #((swap! text assoc :raw (-> % .-target .-value))
+                           (swap! text assoc :md (-> % .-target .-value md/md->html))
+                           )
+              }
+   
+   (:raw @text)
+   ]
+  )
+
+(rum/defc mdviewer < rum/reactive  [text]
+  [:div.markdown {:dangerouslySetInnerHTML {:__html (:md (rum/react text))}}]
+  )
+
+(rum/defcs markdown-form < (rum/local {:raw "" :md ""} :text)
+[local-state]
+(let [text (:text local-state)]
+[:div.flex.m-1.p-1
+[:div.appearance-none.m-1.p-1 (textarea text)]
+[:div "hello"]
+[:div.appearance-none.m-1.p-1 (mdviewer text)]
+]
+)
+)
 
 (rum/defc main-component []
 [:div
 [:div.p-5 "Hello World"]
 (login-form)
-
+[:div "before"]
+(markdown-form)
+[:div "after"]
 ]
 )
 (defn reload! []
