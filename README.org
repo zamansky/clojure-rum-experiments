@@ -1,0 +1,10 @@
+* clojure-rum-experiments
+
+Experimenting with rum instead of reagent for clojurescript stuff
+
+** Uses
+ - shadow-cljs
+ - rum
+ - dommy
+ - tailwindcss
+ 
